@@ -10,5 +10,8 @@
   "workspaces": [
     "_template",
     "lectures/*/*"
-  ]
+  ],
+  "dependencies": {
+    "gitmoji": "^1.1.1"
+  }
 }
