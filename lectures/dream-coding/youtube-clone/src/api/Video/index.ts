@@ -30,9 +30,21 @@ export const fetchSearchedVideos = async (keyword: string) => {
 };
 
 export const fetchVideoDetail = async (videoId: string) => {
-  const res = await axiosInstance.get("/search", {
+  const res = await axiosInstance.get("/videos", {
     params: {
       id: videoId,
+      part: "snippet, player",
+      key: API_KEY,
+    },
+  });
+
+  return res.data;
+};
+
+export const fectchRelatedVideo = async (channelId: string) => {
+  const res = await axiosInstance.get("/channels", {
+    params: {
+      id: channelId,
       part: "snippet",
       key: API_KEY,
     },

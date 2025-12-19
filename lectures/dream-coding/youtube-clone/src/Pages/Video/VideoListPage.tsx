@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 import VideoCard from "../../Components/Video/VideoCard";
 import { fetchPopularVideos, fetchSearchedVideos } from "../../api/Video";
@@ -7,6 +7,7 @@ import { fetchPopularVideos, fetchSearchedVideos } from "../../api/Video";
 export default function VideoListPage() {
   const { q } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [videos, setVideos] = useState<undefined | any>();
 
@@ -23,9 +24,11 @@ export default function VideoListPage() {
           return { ...video, id: video.videoId };
         })
       );
-    } else {
+    } else if (!location.pathname.includes("watch")) {
       setVideos(result.items);
     }
+
+    console.log(location);
   };
 
   const handleClick = (videoId: string) => {
