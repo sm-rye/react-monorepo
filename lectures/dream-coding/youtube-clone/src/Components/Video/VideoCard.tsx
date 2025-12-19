@@ -41,11 +41,11 @@ export default function VideoCard({
       </div>
       <h1>{title}</h1>
       <div>
-        <div>
+        <div className="border">
           <p>{channelObj.channelTitle}</p>
           {channelObj.thumb && (
             <div>
-              <img src={channelObj.thumb} />
+              <img src={channelObj.thumb.default.url} />
             </div>
           )}
         </div>

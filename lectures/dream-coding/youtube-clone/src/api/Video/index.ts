@@ -41,7 +41,7 @@ export const fetchVideoDetail = async (videoId: string) => {
   return res.data;
 };
 
-export const fectchRelatedVideo = async (channelId: string) => {
+export const fectchChannelInfo = async (channelId: string) => {
   const res = await axiosInstance.get("/channels", {
     params: {
       id: channelId,

@@ -1,61 +1,44 @@
-import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import React from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 import VideoCard from "../../Components/Video/VideoCard";
-import { fetchPopularVideos, fetchSearchedVideos } from "../../api/Video";
+
+import { useVideos } from "../../hooks/useGetVideos";
 
 export default function VideoListPage() {
-  const { q } = useParams();
+  const { q } = useParams<{ q: string }>();
   const navigate = useNavigate();
-  const location = useLocation();
 
-  const [videos, setVideos] = useState<undefined | any>();
+  const { data: videos, isLoading, error } = useVideos(q);
 
-  const getPopularsVideos = async () => await fetchPopularVideos();
-  const getSearchedVideos = async (keyword: string) =>
-    await fetchSearchedVideos(keyword);
-
-  const getVideos = async () => {
-    const result = q ? await getSearchedVideos(q) : await getPopularsVideos();
-
-    if (q) {
-      setVideos(
-        result.items.map((video) => {
-          return { ...video, id: video.videoId };
-        })
-      );
-    } else if (!location.pathname.includes("watch")) {
-      setVideos(result.items);
-    }
-
-    console.log(location);
-  };
-
-  const handleClick = (videoId: string) => {
+  const handleVideoClick = (videoId: string) => {
     navigate(`/videos/watch/${videoId}`);
   };
 
-  useEffect(() => {
-    getVideos();
-  }, [q]);
-
   if (!videos) return <div>데이터 없음</div>;
 
-  return (
-    <div>
-      {videos?.map((item) => {
-        const { title, channelTitle, publishedAt, thumbnails } = item.snippet;
-        const AGO = `${publishedAt} 가공예정`;
+  if (isLoading) return <div className="p-4 text-center">로딩 중...</div>;
+  if (error)
+    return (
+      <div className="p-4 text-red-500 text-center">
+        데이터를 가져오지 못했습니다.
+      </div>
+    );
 
-        return (
-          <VideoCard
-            key={item.id}
-            videoCardObj={{ title, channelTitle, publishedAt: AGO }}
-            thumb={thumbnails}
-            onClick={() => handleClick(item.id)}
-          />
-        );
-      })}
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-4">
+      {videos?.map((video) => (
+        <VideoCard
+          key={video.id}
+          videoCardObj={{
+            title: video.snippet.title,
+            publishedAt: `${video.snippet.publishedAt} (가공 예정)`,
+          }}
+          channelObj={{ channelTitle: video.snippet.channelTitle }}
+          thumb={video.snippet.thumbnails}
+          onClick={() => handleVideoClick(video.id)}
+        />
+      ))}
     </div>
   );
 }
