@@ -5,10 +5,12 @@
   "scripts": {
     "dev:todo": "yarn workspace @dream-coding/todo dev",
     "dev:youtube": "yarn workspace @dream-coding/youtube-clone dev",
-    "dev:template": "yarn workspace @template/react-base dev"
+    "dev:template": "yarn workspace @template/react-base dev",
+    "dev:rootin": "yarn workspace @project/rootin dev"
   },
   "workspaces": [
     "_template",
-    "lectures/*/*"
+    "lectures/*/*",
+    "projects/*"
   ]
 }
