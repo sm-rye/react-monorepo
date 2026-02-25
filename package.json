@@ -3,10 +3,12 @@
   "packageManager": "yarn@4.12.0",
   "private": true,
   "scripts": {
+    "new": "node scripts/new-project.mjs",
     "dev:todo": "yarn workspace @dream-coding/todo dev",
     "dev:youtube": "yarn workspace @dream-coding/youtube-clone dev",
     "dev:template": "yarn workspace @template/react-base dev",
-    "dev:rootin": "yarn workspace @project/rootin dev"
+    "dev:rootin": "yarn workspace @project/rootin dev",
+    "dev:nextjs": "yarn workspace @nomad/nextjs dev"
   },
   "workspaces": [
     "_template",
